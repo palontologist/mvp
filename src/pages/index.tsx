@@ -5,7 +5,7 @@ import { NavBar } from "~/components/NavBar";
 
 import { api } from "~/utils/api";
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  
 
 
   return (
@@ -89,7 +89,7 @@ const Home: NextPage = () => {
   
   
         
-        <p className="mt-6 text-center text-gray-500">Don't forget to subscribe to our podcast!</p>
+        <p className="mt-6 text-center text-gray-500">Don&apos;t forget to subscribe to our podcast!</p>
         { /* Footer */ }
   <footer className="bg-green-700 w-full py-6 px-4">
     <p className="text-white text-center">
