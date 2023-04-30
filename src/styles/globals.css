@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F7F6F3;
+    background-image: linear-gradient(to bottom, #F7F6F3, #E8E8E4);
+  }
+  /* Primary button */
+.btn-primary {
+  background-color: #E87E04;
+  color: #FFFFFF;
+}
+
+/* Secondary button */
+.btn-secondary {
+  background-color: #F2CC8F;
+  color: #333333;
+}
+
+/* Hover effect for buttons */
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* Link color */
+a {
+  color: #E87E04;
+}
+
+/* Hover effect for links */
+a:hover {
+  text-decoration: underline;
+}
+
+/* Primary button */
+.btn-primary {
+  background-color: #E87E04;
+  color: #FFFFFF;
+}
+
+/* Secondary button */
+.btn-secondary {
+  background-color: #F2CC8F;
+  color: #333333;
+}
+
+/* Hover effect for buttons */
+.btn:hover {
+  opacity: 0.8;
+}
