@@ -6,11 +6,14 @@ import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
 import { NavBar } from "~/components/NavBar";
+import { DiscoverPage } from "~/components/DiscoverPage";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   
   return <ClerkProvider {...pageProps} >
     <NavBar />
+    <DiscoverPage />
+    
   <Component {...pageProps} />;
   </ClerkProvider>
 };
