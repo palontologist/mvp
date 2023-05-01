@@ -1,11 +1,18 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import Script from 'next/script';
 import Link from "next/link";
 import { NavBar } from "~/components/NavBar";
 
 import { api } from "~/utils/api";
+import { useState } from "react";
 const Home: NextPage = () => {
+  const [showForm, setShowForm] = useState(false)
+  const handleFormToggle = () => {
+    setShowForm(!showForm)
+  }
   
+
 
 
   return (
@@ -27,19 +34,19 @@ const Home: NextPage = () => {
 
   <div className="home-page-features flex flex-wrap justify-center items-center gap-6 py-10">
     <div className="home-page-feature max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-2xl font-bold mb-4">Community Initiatives</h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">Community Initiatives</h2>
       <p className="text-gray-700 text-lg">
         Join a community of individuals and organizations working towards sustainable development goals.
       </p>
     </div>
     <div className="home-page-feature max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-2xl font-bold mb-4">Marketplace</h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">Marketplace</h2>
       <p className="text-gray-700 text-lg">
         Discover and purchase sustainable products and services from verified sellers.
       </p>
     </div>
     <div className="home-page-feature max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-2xl font-bold mb-4">Educational Resources</h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">Educational Resources</h2>
       <p className="text-gray-700 text-lg">
         Access a range of educational resources on sustainable development goals and best practices.
       </p>
