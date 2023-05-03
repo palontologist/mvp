@@ -1,10 +1,10 @@
 import { NextPage } from 'next';
-import {ClerkProvider,SignedIn,SignedOut,SignInButton,UserButton} from "@clerk/nextjs";
+import { ClerkProvider,SignedIn,SignedOut,SignInButton,UserButton } from "@clerk/nextjs";
 
 export function DiscoverPage() {
   return (
-    <div>
-      <button onClick={loadTypeform}>
+    <div className="discover-container">
+      <button className="discover-button" onClick={loadTypeform}>
         Discover Your Sustainable Development Goals
       </button>
       <div id="typeform-widget"></div>

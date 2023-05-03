@@ -49,3 +49,24 @@ a:hover {
 .btn:hover {
   opacity: 0.8;
 }
+.discover-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.discover-button {
+  padding: 12px 24px;
+  border-radius: 4px;
+  background-color: #0070f3;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.discover-button:hover {
+  background-color: #0062cc;
+}
