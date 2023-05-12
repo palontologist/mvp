@@ -28,10 +28,11 @@ const Home: NextPage = () => {
   <h1 className="text-5xl font-bold text-center mt-12 mb-6 tracking-wider">
     frontforumfocus
   </h1>
-  <p className="text-center text-lg leading-7 mb-16 max-w-2xl">
-    A platform connecting individuals and organizations working on sustainable development goals through community initiatives, marketplace, and educational resources
-  </p>
-
+  <h2 className="text-center text-lg leading-7 mb-16 max-w-2xl">
+  <a href="/sdgs-form" className="text-blue-500 hover:text-blue-700">
+    Discover the Sustainable Development Goals (SDGs) that Matter Most to You.
+  </a>
+</h2>
   <div className="home-page-features flex flex-wrap justify-center items-center gap-6 py-10">
     <div className="home-page-feature max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6">
       <h2 className="text-2xl font-bold mb-4 text-gray-800">Community Initiatives</h2>
