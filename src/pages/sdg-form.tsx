@@ -13,28 +13,24 @@ export default function SDGForm() {
     passions: '',
   });
 
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    // Call OpenAI API to get SDG suggestions
-    const response = await fetch('https://api.openai.com/v1/engines/davinci-codex/completions', {
+    const response = await fetch('/api/suggest-sdgs', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer YOUR_OPENAI_API_KEY', // Replace with your OpenAI API key
       },
-      body: JSON.stringify({
-        prompt: `Suggest SDGs based on the following inputs: Education: ${formData.education}, Skills: ${formData.skills}, Passions: ${formData.passions}`,
-        max_tokens: 5, // Number of SDGs to suggest
-        temperature: 0.5, // Controls the creativity of the response (0.0 to 1.0)
-      }),
+      body: JSON.stringify(formData),
     });
-
     const data = await response.json();
-    const suggestions = data.choices[0].text.trim().split('\n');
-
-    // Handle SDG suggestions here
-    console.log(suggestions);
+    if (!data.choices || data.choices.length === 0) {
+      console.error('No suggestions found');
+      return;
+    }
+    const newSuggestions = data.choices[0].text.trim().split('\n');
+    setSuggestions(newSuggestions);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -92,6 +88,15 @@ export default function SDGForm() {
           Submit
         </button>
       </form>
-    </div>
+      {suggestions.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4">Suggested SDGs:</h2>
+          <ul>
+            {suggestions.map((suggestion) => (
+              <li key={suggestion}>{suggestion}</li>
+            ))}
+          </ul>
+        </div>
+       </div>
   );
 }
