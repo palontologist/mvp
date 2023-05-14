@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { suggestions } from "~/pages/api/trpc/suggest-sdgs";
 type FormData = {
   education: string;
   skills: string;
@@ -17,20 +17,12 @@ export default function SDGForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await fetch('/api/suggest-sdgs', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await response.json();
-    if (!data.choices || data.choices.length === 0) {
+    const data = await response(formData);
+    if (!data || data.length === 0) {
       console.error('No suggestions found');
       return;
     }
-    const newSuggestions = data.choices[0].text.trim().split('\n');
-    setSuggestions(newSuggestions);
+    setSuggestions(data);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -97,6 +89,7 @@ export default function SDGForm() {
             ))}
           </ul>
         </div>
-       </div>
+      )}
+    </div>
   );
 }
