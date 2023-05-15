@@ -9,31 +9,33 @@ const SDGForm = () => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-
- const handleSubmit = async (event: { preventDefault: () => void; }) => {
-  event.preventDefault();
-  try {
-    const response = await fetch('https://api.openai.com/v1/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify(formData)
-    });
-    const data = await response.json();
-    if (data.choices && data.choices.length > 0) {
-      setSuggestedSDGs(data.choices[0].text);
-    } else {
-      console.error('Unexpected API response:', data);
+  async function handleSubmit(event: { preventDefault: () => void; }) {
+    event.preventDefault();
+    try {
+      const configuration = new Configuration({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+      const openai = new OpenAIApi(configuration);
+      const data = await openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: `Suggest SDGs based on education: ${formData.education}, skills: ${formData.skills}, passions: ${formData.passions}`,
+        temperature: 0.9,
+        max_tokens: 150,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0.6
+      });
+      if (data.choices && data.choices.length > 0) {
+        setSuggestedSDGs(data.choices[0].text);
+      } else {
+        console.error('Unexpected API response:', data);
+        setSuggestedSDGs([]);
+      }
+    } catch (error) {
+      console.error('API request failed:', error);
       setSuggestedSDGs([]);
     }
-  } catch (error) {
-    console.error('API request failed:', error);
-    setSuggestedSDGs([]);
   }
-};
-
 
   return (
     <form onSubmit={handleSubmit}>
@@ -53,7 +55,7 @@ const SDGForm = () => {
       <div>
         <h2>Suggested SDGs:</h2>
         <ul>
-          {suggestedSDGs.map((sdg: string) => (
+          {suggestedSDGs.map((sdg) => (
             <li key={sdg}>{sdg}</li>
           ))}
         </ul>
