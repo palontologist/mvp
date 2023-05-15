@@ -9,8 +9,10 @@ const SDGForm = () => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async (event: { preventDefault: () => void; }) => {
-    event.preventDefault();
+
+ const handleSubmit = async (event: { preventDefault: () => void; }) => {
+  event.preventDefault();
+  try {
     const response = await fetch('https://api.openai.com/v1/completions', {
       method: 'POST',
       headers: {
@@ -20,8 +22,18 @@ const SDGForm = () => {
       body: JSON.stringify(formData)
     });
     const data = await response.json();
-    setSuggestedSDGs(data.choices[0].text);
-  };
+    if (data.choices && data.choices.length > 0) {
+      setSuggestedSDGs(data.choices[0].text);
+    } else {
+      console.error('Unexpected API response:', data);
+      setSuggestedSDGs([]);
+    }
+  } catch (error) {
+    console.error('API request failed:', error);
+    setSuggestedSDGs([]);
+  }
+};
+
 
   return (
     <form onSubmit={handleSubmit}>
