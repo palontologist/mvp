@@ -23,4 +23,12 @@ Contributions are always welcome! If you want to contribute to the project, plea
 
 ## License
 
+UPCOMING FEATURES
+1.Get suggestions for SDGs you impact most from your education,skills and passions.
+2.Track your progress
+3.Connect with like minded people 
+4.Educational resources
+
+
+
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
