@@ -1,6 +1,5 @@
-import { AxiosResponse } from 'axios';
 import { useState } from 'react';
-import { Configuration, OpenAIApi, } from "openai";
+import { Configuration, OpenAIApi } from 'openai';
 
 const SDGForm = () => {
   const [formData, setFormData] = useState({ education: '', skills: '', passions: '' });
@@ -18,23 +17,29 @@ const SDGForm = () => {
         apiKey: process.env.OPENAI_API_KEY,
       });
       const openai = new OpenAIApi(configuration);
-      const headers = {
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
-      };
-      const data = await openai.createCompletion({
+
+      const response = await openai.createCompletion({
         model: 'text-davinci-002',
         prompt: `Suggest SDGs based on education: ${formData.education}, skills: ${formData.skills}, passions: ${formData.passions}`,
         temperature: 0.9,
         max_tokens: 150,
         top_p: 1,
         frequency_penalty: 0,
-        presence_penalty: 0.6
+        presence_penalty: 0.6,
       });
-        if (data.data.choices && data.data.choices.length > 0) {
-          setSuggestedSDGs(data.data.choices[0].text);
+
+      if (response.status === 200) {
+        const data = response.data;
+
+        if (data && data.choices && data.choices.length > 0) {
+          const suggestedTexts = data.choices.map((choice) => choice.text);
+          setSuggestedSDGs(suggestedTexts);
+        } else {
+          console.error('Unexpected API response:', data);
+          setSuggestedSDGs([]);
+        }
       } else {
-        console.error('Unexpected API response:', data);
+        console.error('API request failed:', response.status);
         setSuggestedSDGs([]);
       }
     } catch (error) {
@@ -61,8 +66,8 @@ const SDGForm = () => {
       <div>
         <h2>Suggested SDGs:</h2>
         <ul>
-          {suggestedSDGs.map((sdg) => (
-            <li key={sdg}>{sdg}</li>
+          {suggestedSDGs.map((sdg, index) => (
+            <li key={index}>{sdg}</li>
           ))}
         </ul>
       </div>
