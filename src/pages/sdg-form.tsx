@@ -1,78 +1,64 @@
-import { useState } from 'react';
-import { Configuration, OpenAIApi } from 'openai';
+import { useState } from "react";
+import { Configuration, OpenAIApi } from "openai";
 
-const SDGForm = () => {
-  const [formData, setFormData] = useState({ education: '', skills: '', passions: '' });
-  const [suggestedSDGs, setSuggestedSDGs] = useState([]);
+const configuration = new Configuration({apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
 
-  const handleChange = (event: { target: { name: any; value: any; }; }) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+const App = () => {
+  const [education, setEducation] = useState("");
+  const [passion, setPassion] = useState("");
+  const [skills, setSkills] = useState("");
+
+  const handleSubmit = async () => {
+    const chatCompletion = await openai.createChatCompletion(
+      {
+        model: "gpt-3.5-turbo",
+        messages: [{role:"user",content:"Suggest SDGs that I can impact most based on my education, passion, and skills"}],
+      },
+      {
+        timeout: 1000,
+        headers: {
+          "climate": "change",
+        },
+      }
+      
+    );
+
+    const sdgs = Response.data.choices[0].message;
+
+    // Display the suggested SDGs
+    alert(sdgs);
+  
+  
   };
 
-  async function handleSubmit(event: { preventDefault: () => void; }) {
-    event.preventDefault();
-
-    try {
-      const configuration = new Configuration({
-        apiKey: process.env.OPENAI_API_KEY,
-      });
-      const openai = new OpenAIApi(configuration);
-
-      const response = await openai.createCompletion({
-        model: 'text-davinci-002',
-        prompt: `Suggest SDGs based on education: ${formData.education}, skills: ${formData.skills}, passions: ${formData.passions}`,
-        temperature: 0.9,
-        max_tokens: 150,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0.6,
-      });
-
-      if (response.status === 200) {
-        const data = response.data;
-
-        if (data && data.choices && data.choices.length > 0) {
-          const suggestedTexts = data.choices.map((choice) => choice.text);
-          setSuggestedSDGs(suggestedTexts);
-        } else {
-          console.error('Unexpected API response:', data);
-          setSuggestedSDGs([]);
-        }
-      } else {
-        console.error('API request failed:', response.status);
-        setSuggestedSDGs([]);
-      }
-    } catch (error) {
-      console.error('API request failed:', error);
-      setSuggestedSDGs([]);
-    }
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Education:
-        <input type="text" name="education" value={formData.education} onChange={handleChange} />
-      </label>
-      <label>
-        Skills:
-        <input type="text" name="skills" value={formData.skills} onChange={handleChange} />
-      </label>
-      <label>
-        Passions:
-        <input type="text" name="passions" value={formData.passions} onChange={handleChange} />
-      </label>
-      <button type="submit">Suggest SDGs</button>
-      <div>
-        <h2>Suggested SDGs:</h2>
-        <ul>
-          {suggestedSDGs.map((sdg, index) => (
-            <li key={index}>{sdg}</li>
-          ))}
-        </ul>
-      </div>
-    </form>
+    <div>
+      <h1>frontforumfocus</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Education"
+          value={education}
+          onChange={(e) => setEducation(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Passion"
+          value={passion}
+          onChange={(e) => setPassion(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Skills"
+          value={skills}
+          onChange={(e) => setSkills(e.target.value)}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
 };
 
-export default SDGForm;
+export default App;
