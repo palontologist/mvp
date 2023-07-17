@@ -6,7 +6,9 @@ import { NavBar } from "~/components/NavBar";
 
 import { api } from "~/utils/api";
 import { useState } from "react";
-import { getChatResponse } from "./api";
+import { getChatResponse } from "./async (params:any) => {
+  api
+}";
 
 
 const Home: NextPage = () => {
