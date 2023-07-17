@@ -6,12 +6,18 @@ import { NavBar } from "~/components/NavBar";
 
 import { api } from "~/utils/api";
 import { useState } from "react";
+import { getChatResponse } from "./api";
+
+
 const Home: NextPage = () => {
   const [showForm, setShowForm] = useState(false)
   const handleFormToggle = () => {
     setShowForm(!showForm)
   }
   
+// Get the response from the OpenAI API
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+const response = getChatResponse("What is the meaning of life?");
 
 
 
